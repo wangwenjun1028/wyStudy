@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖得实现</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <input type="text" id="val"><button id="btn">add</button>
+
+</body>
+<script>
+    let val = 0;
+    function add() {
+        let val = document.getElementById("val").value;
+        val++;
+        document.getElementById("val").value = val
+    }
+
+    // 防抖函数
+    function debounce(fn, delay) {
+        let timer = null;
+        return function (...args) {
+            if (timer) {
+                clearTimeout(timer);
+
+            }
+            timer = setTimeout(() => {
+                fn(...args);
+            }, delay)
+        }
+
+    }
+    btn.onclick = debounce(add, 1000);
+
+    // document.getElementsByTagName("button")[0].onclick = function () {
+    //     add()
+    // }
+</script>
+
+</html>
