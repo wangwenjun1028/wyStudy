@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流得实现</title>
+</head>
+
+<body>
+    <h1>节流函数的demo</h1>
+    <input type="text" value="0" id="val"><button id="btn">add</button>
+</body>
+<script>
+    // 节流函数
+    function throttle(fn, delay) {
+        let flag = true;
+        return function (...args) {
+            if (!flag) {
+                return;
+            }
+            flag = false;
+            setTimeout(() => {
+                fn(...args)
+                flag = true;
+            }, delay);
+        }
+    }
+
+    function add() {
+        num = parseInt(document.getElementById("val").value);
+        num++;
+        document.getElementById("val").value = num;
+    }
+    btn.onclick = throttle(add, 500);
+
+
+</script>
+
+</html>
