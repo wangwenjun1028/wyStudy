@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多列布局解决方案</title>
+    <style>
+        .container{
+            width:1200px;
+            margin:50px auto;
+            background-color: #ccc;
+        }
+        .left p{
+            background:#999;
+        }
+        .middle p{
+            background:#999;
+        }
+        .right p{
+            background: gray;
+        }
+        p{color:black}
+        .box{
+            width:200px;
+            height: 100px;
+            background: #ccc;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .index-box{
+            display: inline-block;
+        }
+        .col p{
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="index-box">垂直，水平</div>
+    </div>
+    <hr>
+    <h5>定宽+自适应 <span>overflow+margin</span></h5>
+    <div class="container">
+        <div class="left" style="float: left;width:100px">
+            <p>left</p>
+        </div>
+        <div class="right" style="margin-left: 120px;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>定宽+自适应 <span>overflow+overflow</span></h5>
+    <div class="container">
+        <div class="left" style="width:100px;float: left;margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="overflow: hidden;">
+            <p>right</p>
+            <p>rigth</p>
+        </div>
+    </div>
+    <h5>定宽+自适应 <span>table</span></h5>
+    <div class="container" style="display: table;table-layout: fixed;">
+        <div class="left" style="display: table-cell;width:100px;padding-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="display: table-cell;">
+            <p>rigth</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>定宽+自适应 <span>flex</span></h5>
+    <div class="container" style="display: flex;">
+        <div class="left" style="width:100px;margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="flex: 1;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <hr>
+    <h5>定宽+定宽+自适应<span>float+margin</span></h5>
+    <div class="container">
+        <div class="left" style="float: left;width: 100px;margin-right:20px">
+            <p>left</p>
+        </div>
+        <div class="middle" style="float: left;width: 100px;margin-right:20px">
+            <p>middle</p>
+        </div>
+        <div class="right" style="margin-left: 240px;">
+            <p>right</p>
+            <p>rigth</p>
+        </div>
+    </div>
+    <h5>定宽+定宽+自适应<span>overflow</span></h5>
+    <div class="container">
+        <div class="left" style="width:100px;float: left;margin-right:20px">
+            <p>left</p>
+        </div>
+        <div class="middle" style="width:100px;float: left;margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="overflow: hidden;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>定宽+定宽+自适应<span>table</span></h5>
+    <div class="container" style="display: table;table-layout: fixed;">
+        <div class="left" style="width: 100px;padding-right: 20px;display: table-cell;">
+            <p>left</p>
+        </div>
+        <div class="middle" style="width: 100px;padding-right: 20px;display: table-cell;">
+            <p>middle</p>
+        </div>
+        <div class="right" style="display: table-cell;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>定宽+定宽+自适应<span>flex</span></h5>
+    <div class="container" style="display: flex;">
+        <div class="left" style="width:100px;margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="middle" style="width:100px;margin-right: 20px;">
+            <p>middle</p>
+        </div>
+        <div class="right" style="flex:1">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <hr>
+    <h5>不定宽+自适应<span>+overflow</span></h5>
+    <div class="container">
+        <div class="left" style="float: left;margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="overflow: hidden;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>不定宽+自适应<span>+table</span></h5>
+    <div class="container" style="display: table;">
+        <div class="left" style="display: table-cell; width:0.1%;padding-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="display: table-cell;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>不定宽+自适应<span>flex</span></h5>
+    <div class="container" style="display: flex;">
+        <div class="left" style="margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="right" style="flex:1;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <hr>
+    <h5>不定宽+不定宽+自适应<span>margin+overflow</span></h5>
+    <div class="container">
+        <div class="left" style="float: left;margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="middle" style="float: left;margin-right: 20px;">
+            <p>middle</p>
+        </div>
+        <div class="right" style="overflow: hidden;">
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>不定宽+不定宽+自适应<span>table</span></h5>
+    <div class="container" style="display: table;">
+        <div class="left" style="display: table-cell;padding-right: 20px;width:0.1%">
+            <p>left</p>
+        </div>
+        <div class="middle" style="display: table-cell;padding-right: 20px;width:0.1%">
+            <p>middle</p>
+        </div>
+        <div class="right" style="display: table-cell;" >
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <h5>不定宽+不定宽+自适应<span>flex</span></h5>
+    <div class="container" style="display: flex;">
+        <div class="left" style="margin-right: 20px;">
+            <p>left</p>
+        </div>
+        <div class="middle" style="margin-right: 20px;">
+            <p>middle</p>
+        </div>
+        <div class="right" style="flex: 1;" >
+            <p>right</p>
+            <p>right</p>
+        </div>
+    </div>
+    <hr>
+    <h5>多列等宽布局<span>float</span></h5>
+    <div class="container">
+        <div class="parent" style="margin-left: -20px;height: 50px;">
+            <div class="col" style="width:25%;padding-left: 20px;float: left;box-sizing: border-box;"><p>111</p></div>
+            <div class="col"style="width:25%;padding-left: 20px;float: left;box-sizing: border-box;"><p>222</p></div>
+            <div class="col" style="width:25%;padding-left: 20px;float: left;box-sizing: border-box;"><P>333</P></div>
+            <div class="col" style="width:25%;padding-left: 20px;float: left;box-sizing: border-box;"><P>444</P></div>
+        </div>
+    </div>
+    <h5 style="margin-top: 200px;">多列等宽布局<span>table</span></h5>
+    <div class="container">
+        <div class="box-fix" style="margin-left: -20px;">
+            <div class="parent" style="display: table;table-layout: fixed;width: 100%;">
+                <div class="col" style="display: table-cell;padding-left: 20px;"><p>111</p></div>
+                <div class="col"style="display: table-cell;padding-left: 20px;"><p>222</p></div>
+                <div class="col" style="display: table-cell;padding-left: 20px;"><P>333</P></div>
+                <div class="col" style="display: table-cell;padding-left: 20px;"><P>444</P></div>
+                <div class="col" style="display: table-cell;padding-left: 20px;"><P>555</P></div>
+            </div>
+        </div>
+    </div>
+    <h5>多列等宽布局<span>flex</span></h5>
+    <div class="container">
+        <div class="parent" style="display: flex;">
+            <div class="col" style="flex: 1;margin-right: 20px;"><p>111</p></div>
+            <div class="col"style="flex: 1;margin-right: 20px;"><p>222</p></div>
+            <div class="col" style="flex: 1;margin-right: 20px;"><P>333</P></div>
+            <div class="col" style="flex: 1;margin-right: 20px;"><P>444</P></div>
+            <div class="col" style="flex: 1;"><P>444</P></div>
+        </div>
+    </div>
+    
+
+
+    
+</body>
+</html>
