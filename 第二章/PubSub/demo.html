@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>异步编程的联系</title>
+</head>
+<body>
+    <h1>异步编程-----发布、订阅者模式实现异步</h1>
+</body>
+<script src="./jquery-1.11.3.js"></script>
+<script>
+    // 
+    class PubSub{
+        constructor(){
+            this.events={};
+        }
+        publish(eventName,data){//发布
+            if(this.events[eventName]){
+                console.log("publish")
+                this.events[eventName].forEach(cb=>cb.apply(this,data));
+            }
+        }
+        subscribe(eventName,callback){//订阅
+            if(this.events[eventName]){
+                this.events[eventName].push(callback)
+            }else{
+                this.events[eventName]=[callback];
+            }
+        }
+        unSubscribe(eventName,callback){
+            if(this.events[eventName]){
+                this.events[eventName]=this.events[eventName].filter(ch=>cb!=callback)
+            }
+        }
+    }
+    let pbb=new PubSub();
+    $.ajax({
+        type:'get',
+        url:"./test1.json",
+        success(data){
+            console.log(data);
+            pbb.publish("test1Success",data)
+        }
+    })
+    
+    pbb.subscribe('test1Success',function(data){
+        $.ajax({
+            type:'get',
+            url:"./test2.json",
+            success(data){
+                console.log(data)
+                pbb.publish("test2Success",data)
+            }
+        })
+    })
+    pbb.subscribe("test2Success",function(data){ 
+        $.ajax({
+            type:'get',
+            url:"./test3.json",
+            success(data){
+                console.log(data);
+                pbb.publish("test3Success",data)
+            }
+        })
+    })
+    pbb.subscribe("test3Success",function(data){
+        console.log(data);
+        console.log(pbb)
+    })
+
+  
+
+// $.ajax({
+//     type:"GET",
+//     url:"./test1.json",
+//     success:function(data){
+//         console.log(data)
+//         $.ajax({
+//             type:"GET",
+//             url:"./test2.json",
+//             success:function(data){
+//                 console.log(data);
+//                 $.ajax({
+//                     "type":"get",
+//                     "url":"./test3.json",
+//                     success:function(data){
+//                         console.log(data)
+//                     }
+//                 })
+//             }
+//         })
+//     },
+//     error:function(){
+//         alert("网络故障，请检查!")
+//     }
+// })
+
+</script>
+</html>
