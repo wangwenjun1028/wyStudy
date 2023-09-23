@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file" id="btn">
+    <img src="" alt="">
+</body>
+<script>
+    let btn = document.getElementById("btn")
+    btn.onchange = (e) => {
+        const target = e.target.files[0]
+        const file = new FileReader()
+        console.log(target)
+        file.onload = data => {
+            const url = data.target.result
+            document.querySelector("img").src = url
+        }
+        file.readAsDataURL(target)
+    }
+</script>
+
+</html>

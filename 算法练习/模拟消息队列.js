@@ -48,7 +48,6 @@ const getResult = (input) => {
         }
 
     }
-
     for (let i = 0; i < arr.length; i++) {
         if (arr[i].length) {
             result.push(arr[i].sort((a, b) => a - b).join(" "))

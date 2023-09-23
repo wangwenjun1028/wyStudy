@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background: #ccc;
+    }
+
+    h1 {
+        font-size: 120px;
+        font-weight: 700;
+        position: relative;
+        text-align: center;
+        color: #fff;
+
+    }
+
+    h1::before {
+        content: "DARKNESS";
+        position: absolute;
+        color: #000;
+        transform: translate(-50px, 21px) scaleY(0.5) skew(50deg);
+        z-index: -1;
+        filter: blur(5px);
+        mask-image: linear-gradient(transparent, #000);
+    }
+</style>
+
+<body>
+    <h1>DARKNESS</h1>
+</body>
+
+</html>
