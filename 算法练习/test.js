@@ -12,7 +12,9 @@ const test = (decs, fn) => {
         fn()
         console.log(`恭喜你，${decs}通过`)
     } catch (e) {
+
         console.log(`${decs}没有通过`)
+        console.log(e)
     }
 }
 
