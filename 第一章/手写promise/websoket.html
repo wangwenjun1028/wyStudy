@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>websoket通讯</p>
+</body>
+<script>
+    let ws = new WebSocket("ws://localhost:8181/ws")
+    //创建连接时调用
+    ws.onopen = () => {
+        console.log("websoket已经连接上")
+    }
+    ws.onmessage = (msg) => {
+        let data = msg.data
+        console.log('接收到服务器的数据：', data)
+    }
+    ws.onclose = () => {
+        console.log("关闭websoket连接")
+    }
+</script>
+
+</html>
