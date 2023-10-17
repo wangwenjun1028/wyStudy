@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>手写继承 Object.creat</div>
+</body>
+<script>
+    function inherate(content) {
+        if (typeof content !== 'object') {
+            throw new Error("must be a object")
+        }
+        function Fn() { }
+        Fn.prototype = content
+        return new Fn()
+    }
+    var obj = { name: 'obj' }
+    var wang = inherate(obj)
+    console.log(wang)
+</script>
+
+</html>
