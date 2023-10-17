@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>手写bind</div>
+</body>
+<script>
+    var wang = {
+        name: "wang",
+        info: function (val, val2) {
+            console.log(val, val2)
+            return this.name
+        }
+    }
+    var obj = { name: 'test' }
+    // console.log(wang.info.apply(obj, [1]))
+
+    Function.prototype.myApply = function () {
+        if (typeof this !== 'function') {
+            throw new Error("must be a function")
+        }
+        let args = Array.prototype.slice.call(arguments)
+        let context = args[0]
+        context.fn = this || window;
+        let result = args[1] ? context.fn(...args[1]) : context.fn()
+        return result;
+    }
+    console.log(wang.info.myApply(obj, [666, 777]))
+
+</script>
+
+</html>
