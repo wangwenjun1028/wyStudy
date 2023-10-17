@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>继承的几种方式</p>
+    <ul>
+        <li>原型继承</li>
+        <li>构造函数继承</li>
+        <li>组合继承</li>
+        <li>组合寄生式继承</li>
+    </ul>
+
+</body>
+<script>
+    //原型继承
+    // function Person(name) {
+    //     this.name = name
+    // }
+    // Person.prototype.info = function () {
+    //     console.log("name:", this.name)
+    // }
+    // function Teacher(book) {
+    //     this.book = book;
+    // }
+    // Teacher.prototype = new Person()
+    // Teacher.prototype.construtor = Teacher
+    // let wang = new Teacher('wang')
+    // console.log(wang)
+</script>
+<script>
+    //构造函数继承
+    // function Person(name) {
+    //     this.name = name
+    // }
+    // Person.prototype.info = function () {
+    //     console.log("name:", this.name)
+    // }
+    // function Teacher(name, book) {
+    //     Person.apply(this, [name])
+    //     this.book = book;
+    // }
+    // let wang = new Teacher('wang', 'english')
+    // console.log(wang)
+</script>
+<script>
+    //组合继承
+    // function Person(name) {
+    //     this.name = name
+    // }
+    // Person.prototype.info = function () {
+    //     console.log("name:", this.name)
+    // }
+    // function Teacher(name, book) {
+    //     Person.apply(this, [name])
+    //     this.book = book;
+    // }
+    // Teacher.prototype = new Person()
+    // Teacher.prototype.construtor = Teacher
+    // let wang = new Teacher('wang', 'english')
+    // console.log(wang)
+</script>
+<script>
+    //组合寄生式继承
+    function Person(name) {
+        this.name = name
+    }
+    Person.prototype.info = function () {
+        console.log("name:", this.name)
+    }
+    function Teacher(name, book) {
+        Person.apply(this, [name])
+        this.book = book;
+    }
+    Teacher.prototype = Object.create(Person.prototype)
+    let wang = new Teacher('wang', 'english')
+    console.log(wang)
+</script>
+
+</html>
