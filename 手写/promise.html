@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>手写promise</h1>
+</body>
+<script>
+    // 手写promise
+    class myPromise {
+        //构造函数
+        constructor(executor) {
+            //初始状态
+            this.PromiseState = 'pending'
+            //初始值
+            this.PromiseResult = null
+            //绑定this
+            this.bindThis()
+            //错误捕获
+            try {
+                //执行传过来的函数
+                executor(this.resolve, this.reject)
+            } catch (err) {
+                this.reject(err)
+            }
+            //存放then里面的执行函数
+            this.onFulfilledCbs = []
+            this.onRejectedCbs = []
+        }
+        bindThis() {
+            this.resolve = this.resolve.bind(this)
+            this.reject = this.reject.bind(this)
+        }
+        resolve(val) {
+            // 非pending状态，改变状态为fullfilled
+            if (this.PromiseState !== 'pending') return
+            this.PromiseState = 'fullfilled'
+            //改变初始值
+            this.PromiseResult = val
+            while (this.onFulfilledCbs.length) {
+                //执⾏保存的成功回调
+                this.onFulfilledCbs.shift()(this.PromiseResult)
+            }
+        }
+        reject(reason) {
+            // 非pending状态，改变状态为rejected
+            if (this.PromiseState !== 'pending') return
+            this.PromiseState = 'rejected'
+            this.PromiseResult = reason
+            console.log(this.onRejectedCbs)
+            console.log(this)
+            while (this.onRejectedCbs.length) {
+                //执⾏保存的失败回调
+
+                this.onRejectedCbs.shift()(this.PromiseResult)
+            }
+        }
+        then(onFulfilled, onRejected) {
+            // 1、then接收两个回调，⼀个是成功回调，⼀个是失败回调；
+            // 2. 当Promise状态为fulfilled执⾏成功回调，为rejected执⾏失败回调；
+            // 3.如resolve或reject在定时器⾥，则定时器结束后再执⾏then；
+            //4. then⽀持链式调⽤，下⼀次then执⾏受上⼀次then返回值的影响；
+
+            // 参数校验,必须式函数，不是函数转化成函数
+            onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : val => val
+            onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason }
+
+            var thenPromise = new myPromise((resolve, reject) => {
+                const resolvePromise = cb => {
+                    try {
+
+                        const x = cb(this.PromiseResult)
+                        if (x === thenPromise && x) {
+                            throw new Error("不能返回自身...")
+                        }
+                        if (x instanceof myPromise) {
+                            x.then(resolve, reject)
+                        } else {
+                            // ⾮Promise就直接成功
+                            resolve(x)
+
+                        }
+                    } catch (err) {
+                        //处理报错
+                        throw new Error(err)
+                        reject(err)
+                    }
+                }
+
+                if (this.PromiseState === 'fullfilled') {
+                    //  如果当前为成功状态，执⾏第⼀个回调
+                    console.log("onFulfilled:", onFulfilled)
+                    resolvePromise(onFulfilled)
+                }
+                if (this.PromiseState === 'rejected') {
+                    // 如果当前为失败状态，执⾏第⼆个回调
+                    resolvePromise(onRejected)
+                }
+                if (this.PromiseState === 'pending') {
+                    //保存两个函数的回调
+                    this.onFulfilledCbs.push(resolvePromise.bind(this, onFulfilled))
+                    this.onRejectedCbs.push(resolvePromise.bind(this, onRejected))
+                }
+            })
+            return thenPromise
+        }
+    }
+    const promise = new myPromise((resolve, reject) => {
+        // console.log(11)
+        // setTimeout(() => {
+        //     console.log(222)
+        //     resolve('success')
+        // }, 1000)
+        resolve(100)
+        // reject("fail")
+    }).then(res => {
+        console.log("res1:", res)
+        return 2 * res
+    }, err => {
+        console.log("err:", err)
+    }).then(res => {
+        console.log("res2:", res)
+    })
+</script>
+
+</html>
