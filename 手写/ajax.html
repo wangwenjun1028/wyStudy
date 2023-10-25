@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>手写ajax</div>
+
+</body>
+<script>
+    ajax({
+        url: "http://169.254.222.54:3000/users/login",
+        type: 'POST',
+        data: { name: 'wang' },
+        timeout: 3000,
+        seccess: data => {
+            console.log("seccess data:", data)
+        },
+        error: err => {
+            console.log("err data:", err)
+        }
+    })
+    function ajax(option) {
+        //获取参数
+        function getStr(parse) {
+            let temp = []
+            for (let key in parse) {
+                temp.push(`${key}=${parse[key]}`)
+            }
+            return temp.join("&")
+        }
+        // 1.创建一个异步对象
+        let xmlHttp, timer
+        if (window.XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest
+        } else {
+            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        //1.onreadstatechange readystate得改变
+        //2.readystate 0 1没有send 2请求被接受 3有响应，但没有全部完成 4全部完成
+        //3.status http状态码 200
+        if (option.type.toLowerCase() === 'get') {
+            xmlHttp.open(option.type, option.url + `?${new Date().getTime()}&${getStr(option.data)}`, true)
+            xmlHttp.send()
+        } else {
+            // 设置请求的参数。包括：请求的方法、请求的url。
+            xmlHttp.open(option.type, option.url, true)
+            xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            //发送请求
+            xmlHttp.send(getStr(option.data || {}))
+        }
+        //注册事件。
+        xmlHttp.onreadystatechange = () => {
+            if (xmlHttp.readyState === 4) {
+                //请求成功
+                if ((xmlHttp.status >= 200 && xmlHttp.status < 300) || xmlHttp.status == 304) {
+                    option.seccess(xmlHttp.responseText)
+                } else {
+                    console.log(xmlHttp.responseText)
+                    option.error(xmlHttp.responseText)
+                }
+            }
+        }
+        timer = setTimeout(() => {
+            //请求超时
+            xmlHttp.abort()
+            clearTimeout(timer)
+            timer = null
+        }, option.timeout)
+    }
+</script>
+
+</html>
