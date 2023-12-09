@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>请求队列</p>
+</body>
+<script>
+    function getUrl(num) {
+        const urls = []
+        for (let i = 0; i < num; i++) {
+            urls.push(`http://localhost:3000/users/login?count=${i}`)
+        }
+        return urls
+    }
+    const urls = getUrl(20)
+    console.log(urls)
+    function requestQueus(urls, maxCount = 3) {
+        return new Promise((resolve, reject) => {
+            let result = [], count = 0;
+            async function request(urls) {
+                count++
+                try {
+                    const res = await fetch(urls[count])
+                    result[count] = res
+                } catch (err) {
+                    result[count] = err
+                } finally {
+                    console.log(urls.length)
+                    if (count >= urls.length) {
+                        resolve(result)
+                        return
+                    } else {
+                        request(urls)
+                    }
+                }
+            }
+            request(urls)
+            request(urls)
+            request(urls)
+        })
+
+    }
+    requestQueus(urls).then((res) => {
+        console.log("请求全部完成")
+        console.log(res)
+    })
+
+</script>
+
+</html>
